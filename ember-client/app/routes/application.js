@@ -4,7 +4,7 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 export default Ember.Route.extend(ApplicationRouteMixin, {
 	actions: {
 		sessionRequiresAuthentication: function() {
-			var session = this.get('session');
+			let session = this.get('session');
 			this.get('torii')
 				.open('google-oauth2-bearer')
 				.then(function(googleAuth){
@@ -19,9 +19,14 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
 							console.log('custom token authentication failed!', error.message);
 						});
 		 
-				}, function (error) {
+				}.bind(this), function (error) {
 					console.error('Google auth failed: ', error.message);
 				});
+		},
+
+		invalidateSession: function(){
+			this.get('torii').close('google-oauth2-bearer')
+				.then(() => this.get('session').invalidate());
 		}
 	}
 });

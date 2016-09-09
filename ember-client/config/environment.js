@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
 	var ENV = {
-
+		
 		torii: {
 			providers: {
 				'google-oauth2-bearer': {
